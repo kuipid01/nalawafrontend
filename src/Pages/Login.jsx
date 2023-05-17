@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
   import { signInWithEmailAndPassword } from "firebase/auth";
 import bgImg from "../assets/bgHero.jpg";
 import { Link } from "react-router-dom";
@@ -8,16 +8,22 @@ import { useNavigate } from "react-router-dom";
  import SmallLoading from '../components/SmallLoading'
  import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import MainLoader from "../components/MainLoader";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisble, setPasswordVisble] = useState(false);
   const [loading, setloading] = useState(false)
+  const [Pageloading, setPageloading] = useState(true)
   const setPasswordCtrl = () => {
     setPasswordVisble(!passwordVisble);
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      setPageloading(false)
+    }, 500);
+   }, [])
    const handleSubmit = (event) => {
     setloading(true)
      event.preventDefault();
@@ -40,6 +46,7 @@ const Login = () => {
          toast.error( errorMessage);
        });
    };
+   if (Pageloading) return <MainLoader/>
   return (
     <div className="w-full flex p-2  sm:p-10 h-[70vh]  sm:mb-4 sm:min-h-[60vh] border">
            <ToastContainer />

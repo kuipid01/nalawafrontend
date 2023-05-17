@@ -12,7 +12,7 @@ const Card = ({product}) => {
 
 const addToCart = ()  =>{
 
-  setCart([{product},...cart] )
+  setCart([{product  ,qty:1 ,id:product.id},...cart] )
 
 }
 
