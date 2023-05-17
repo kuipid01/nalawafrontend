@@ -87,14 +87,18 @@ const [amount, setAmount] = useState('');
  const handleFlutterPayment =   useFlutterwave(config);
 const handleCheckOut = () => {
   setBtnloading(true)
+  setTimeout(() => {
+    setBtnloading(false)
+  }, 1000);
   handleFlutterPayment({
     callback: (response) => {
       console.log(response);
       closePaymentModal();
     },
     onClose: () => {},
-  })
-  setBtnloading(false)
+  },
+  )
+  
 }
 if (loading) return <MainLoader/>
   return (
