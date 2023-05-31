@@ -42,6 +42,11 @@ const Navbar = () => {
         </Link>
         <li>About</li>
         <li>Products</li>
+        <Link to={'/admin'}>
+     
+        <li>ManageFarm</li>
+        </Link>
+      
         <li>Contact Us</li>
       </ul>
 
