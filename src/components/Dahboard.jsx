@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "../firebase";
+import { getAuth } from "firebase/auth";
 
 const Dahboard = () => {
   const [name, setName] = useState("");
@@ -41,6 +42,8 @@ const Dahboard = () => {
         "https://images.unsplash.com/photo-1584713945776-55f3daca7a5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmlnZXJpYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
     },
   ]);
+
+  const [usersLoaded, setUsersLoaded] = useState([]);
   const [loginValues, setLoginValues] = useState({
     username: "",
     token: "",
@@ -49,7 +52,7 @@ const Dahboard = () => {
   //  FETCHINGCATEGORIES
   const queryClient = useQueryClient();
   const fetchCats = async () => {
-    const response = await axios.get("http://localhost:8000/api/categories/");
+    const response = await axios.get("http://kuipid.eu-4.evennode.com/api/categories/");
     return response.data;
   };
   const { data, isFetching, isLoading } = useQuery({
@@ -57,6 +60,13 @@ const Dahboard = () => {
     queryFn: fetchCats,
   });
 
+  useEffect(() => {
+    // Fetch users from the server-side API
+    fetch("http://localhost:3000/api/users")
+      .then((response) => response.json())
+      .then((data) => setUsersLoaded(data))
+      .catch((error) => console.error("Error fetching users:", error));
+  }, []);
   // END FETCHING CATEGORIES
   //Fetching Products
   const fetchProducts = async () => {
@@ -121,15 +131,19 @@ const Dahboard = () => {
 
   // Update login values and store in localStorage
   const handleLogin = (username, token) => {
-    if (username === "samad" && token === "samad" || username === "manager" &&   token === "manager") {
+    if (
+      (username === "samad" && token === "samad") ||
+      (username === "manager" && token === "manager")
+    ) {
       const expiration = Date.now() + 900000; // 15 minutes in milliseconds
       const updatedLoginValues = { username, token, expiration };
       setLoginValues(updatedLoginValues);
       localStorage.setItem("loginValues", JSON.stringify(updatedLoginValues));
       setAdminLogged(true);
-    }
-    else{
-      alert('Check values entered or go to login button because you might not be an admin or manager')
+    } else {
+      alert(
+        "Check values entered or go to login button because you might not be an admin or manager"
+      );
     }
   };
   // Clear login values from state and localStorage
@@ -349,24 +363,34 @@ const Dahboard = () => {
           </div>
         )}
       </div>
-  
-   { loginValues.username==='samad' &&   <div className="w-full h-fit px-10">
-        <h1 className="text-center text-3xl">( {users.length} )  Users List And Informations</h1>
-        {users.map((users) => (
-          <div
-            className="w-full hover:bg-gray-300 transition-all cursor-pointer flex h-[100px] gap-5  items-center   p-1 px-4 "
-            key={users.id}
-          >
-            <img
+
+      {usersLoaded.length !== 0 && (
+        <div className="w-full py-3 bg-gray-100 h-fit px-10">
+          <h1 className=" text-gray-900 nb-5 text-3xl">
+            ( {usersLoaded.length} ) Users List And Informations
+          </h1>
+          {usersLoaded.map((users) => (
+            <div
+              className="w-full hover:bg-gray-300 transition-all h-fit  flex min-h-[100px] gap-5  items-center   p-1 px-4 "
+              key={users.uid}
+            >
+              {/* <img
               src={users.image}
               className="h-[70%] rounded w-[60px] object-cover"
               alt=""
-            />
-            <p> {users.name} </p>
-            <small>{users.email}</small>
-          </div>
-        ))}
-      </div>}
+            /> */}<div className="w-[30px] h-[3px] bg-green-700"></div>
+              <div className="flex flex-col">
+                <p className='text-[12px] text-green-700 nb-2 font-bold'>
+                  <span>User Id (Visible only to admin)</span>{" "}
+                  <small> {users.uid} </small>{" "}
+                </p>
+
+                <small>{users.email}</small>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
