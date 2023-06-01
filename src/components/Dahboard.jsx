@@ -211,7 +211,7 @@ const Dahboard = () => {
     <div className="h-fit relative flex flex-col ">
       <ToastContainer />
       <h1 className="px-10">
-        Welcome {loginValues.username === "samad" ? "Mr Samad (Admin) " : ""}{" "}
+        Welcome {loginValues.username === "samad" ? "Mr Samad (Admin) " : "Manager"}{" "}
       </h1>
       <div className="flex w-full h-fit px-4 sm:px-10 ">
         {" "}
@@ -364,7 +364,7 @@ const Dahboard = () => {
         )}
       </div>
 
-      {usersLoaded.length !== 0 && (
+      {usersLoaded.length  !== 0 &&  loginValues.username==='samad' ? (
         <div className="w-full py-3 bg-gray-100 h-fit px-10">
           <h1 className=" text-gray-900 nb-5 text-3xl">
             ( {usersLoaded.length} ) Users List And Informations
@@ -390,7 +390,7 @@ const Dahboard = () => {
             </div>
           ))}
         </div>
-      )}
+      ) : ''}
     </div>
   );
 };
