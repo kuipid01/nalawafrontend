@@ -52,7 +52,7 @@ const Dahboard = () => {
   //  FETCHINGCATEGORIES
   const queryClient = useQueryClient();
   const fetchCats = async () => {
-    const response = await axios.get("http://kuipid.eu-4.evennode.com/api/categories/");
+    const response = await axios.get("https://kuipid.pythonanywhere.com/api/categories/");
     return response.data;
   };
   const { data, isFetching, isLoading } = useQuery({
@@ -62,7 +62,7 @@ const Dahboard = () => {
 
   useEffect(() => {
     // Fetch users from the server-side API
-    fetch("http://localhost:3000/api/users")
+    fetch("http://kuipid.eu-4.evennode.com/api/users")
       .then((response) => response.json())
       .then((data) => setUsersLoaded(data))
       .catch((error) => console.error("Error fetching users:", error));
