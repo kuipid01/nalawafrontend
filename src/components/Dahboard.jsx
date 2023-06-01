@@ -62,7 +62,7 @@ const Dahboard = () => {
 
   useEffect(() => {
     // Fetch users from the server-side API
-    fetch("http://kuipid.eu-4.evennode.com/api/users")
+    fetch("https://kuipid.eu-4.evennode.com/api/users")
       .then((response) => response.json())
       .then((data) => setUsersLoaded(data))
       .catch((error) => console.error("Error fetching users:", error));
