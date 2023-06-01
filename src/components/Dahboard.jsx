@@ -52,7 +52,7 @@ const Dahboard = () => {
   //  FETCHINGCATEGORIES
   const queryClient = useQueryClient();
   const fetchCats = async () => {
-    const response = await axios.get("https://kuipid.pythonanywhere.com/api/categories/");
+    const response = await axios.get("http://kuipid.pythonanywhere.com/api/categories/");
     return response.data;
   };
   const { data, isFetching, isLoading } = useQuery({
